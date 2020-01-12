@@ -1,7 +1,7 @@
 class Tile
 
-    def initialize(bomb = false)
-        @bomb = bomb
+    def initialize(mine = false)
+        @mine = mine
     end
 
 end
