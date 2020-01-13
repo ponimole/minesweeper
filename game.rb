@@ -4,12 +4,12 @@ require "byebug"
 class Game
 
     def initialize(size = 9, saved_grid = nil)
-        @board = Board.new(size, grid)
+        @board = Board.new(size, saved_grid)
     end
 
     def save_game
         grid = @board.get_grid
-        save_name = "saves/" + get_save_name + ".yaml"
+        save_name = get_save_name + ".yaml"
         File.open(save_name, "w") { |file| file.write(grid.to_yaml) }
     end
 
@@ -33,10 +33,6 @@ class Game
         puts "Please type save name (must be letters only) :"
     end
 
-    # def self.load_game(saved_grid)
-    #     @board.load_grid(saved_grid)
-    # end
-
     def self.run
         choice = get_menu_choice
         if choice == 'N'
@@ -48,7 +44,7 @@ class Game
     end
 
     def self.select_game
-        game_name = get_game_name + ".yml"
+        game_name = get_game_name + ".yaml"
         grid = YAML.load(File.read(game_name))
         grid
     end
@@ -58,7 +54,8 @@ class Game
         until game_name != nil
             begin
                 puts "select game (type name) : "
-                puts Dir["saves/*"]
+                paths = Dir.glob(__dir__ + "/*.yaml")
+                paths.each {|path| puts (path.split("/")[-1]).split(".")[0]}
                 game_name = gets.chomp
             rescue
                 puts "invalid entry"
@@ -142,6 +139,8 @@ class Game
             @board.reveal(pos)
         elsif act == "F"
             @board.flag(pos)
+        elsif act == "S"
+            save_game
         end
     end
 
@@ -188,7 +187,7 @@ class Game
     end
 
     def prompt_act
-        puts "Enter 'B' to Bomb or 'F' to Flag"
+        puts "Enter 'B' to Bomb, 'F' to Flag, 'S' to Save Game"
     end
 
     def promt_pos
@@ -203,7 +202,7 @@ class Game
     end
 
     def valid_act?(act)
-        actions = ["B", "F"]
+        actions = ["B", "F", "S"]
         act.length == 1 && actions.include?(act)
     end
 end

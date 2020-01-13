@@ -4,11 +4,11 @@ require "yaml"
 class Board
 
     def initialize(size, saved_grid = nil)
-        if grid == nil
-            @grid = Array.new(size) {Array.new(size)}
+        @grid = Array.new(size) {Array.new(size)}
+        if saved_grid == nil
             self.populate
         else
-            @grid.load_grid(grid)
+            @grid = load_grid(saved_grid)
         end
     end
 
@@ -19,7 +19,7 @@ class Board
     end
 
     def load_grid(saved_grid)
-        @grid = saved_grid.map do |row|
+        saved_grid.map do |row|
             row.map {|tile|tile}
         end
     end
