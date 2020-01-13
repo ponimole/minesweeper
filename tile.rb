@@ -1,7 +1,9 @@
+require "./board.rb"
 class Tile
 
-    def initialize(mine = false)
-        @mine = mine
+    def initialize(board, has_mine = false)
+        @has_mine = has_mine
+        @board = board
         @hidden = true
         @flagged = false
         @fringed = false
@@ -12,7 +14,7 @@ class Tile
     end
 
     def to_s
-        return "1" if @fringed
+        return " " if @fringed
         return "*" if @hidden
         return "F" if @flagged
     end
