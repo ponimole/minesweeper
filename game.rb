@@ -7,7 +7,31 @@ class Game
     end
 
     def self.run
-        Game.new.play_loop
+        Game.new(Game.game_size).play_loop
+    end
+
+    def self.game_size
+        size = nil
+
+        until size != nil
+            begin
+                Game.game_size_prompt
+                size = Integer(gets.chomp)
+                raise if !Game.valid_size(size)
+            rescue
+                puts "invalid size"
+                size = nil
+            end
+        end
+        size
+    end
+
+    def self.valid_size(size)
+        size > 0
+    end
+
+    def self.game_size_prompt
+        puts "Please choose a game size: Ex. (enter '3' for 3x3 a board) : "
     end
 
     def play_loop
