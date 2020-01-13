@@ -55,4 +55,11 @@ class Board
             @grid[x][y].has_mine
         end
     end
+
+    def reveal(pos)
+        if valid?(pos)
+            x,y = pos
+            @grid[x][y].reveal
+        end
+    end
 end

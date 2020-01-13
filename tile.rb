@@ -12,7 +12,10 @@ class Tile
     end
 
     def reveal
+        bomb
         @hidden = false
+        to_s
+        has_mine
     end
 
     def to_s
@@ -22,6 +25,7 @@ class Tile
     def state
         return "*" if @hidden
         return "F" if @flagged && (@bombed == false)
+        return "M" if has_mine
         adj_mine_count.to_s
     end
 
