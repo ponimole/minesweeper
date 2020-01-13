@@ -7,9 +7,10 @@ class Board
     end
 
     def populate
-        @grid = @grid.map do |row|
-            row.map do |tile|
-                tile = Tile.new(self)
+        @grid = @grid.each_with_index do |row,row_i|
+            row.each_with_index do |tile,col_i|
+                pos = [col_i,row_i]
+                @grid[col_i][row_i] = Tile.new(self,pos)
             end
         end
     end
@@ -46,5 +47,12 @@ class Board
     def valid?(pos)
         x,y = pos
         x.between?(0,@grid.length - 1) || y.between?(0,@grid.length - 1)
+    end
+
+    def adj_mine_count(pos)
+        get_adjacents(pos).count do |pos|
+            x,y = pos
+            @grid[x][y].has_mine
+        end
     end
 end
