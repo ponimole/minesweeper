@@ -1,10 +1,23 @@
 require "./tile.rb"
 require "byebug"
+require "yaml"
 class Board
 
     def initialize(size)
         @grid = Array.new(size) {Array.new(size)}
         self.populate
+    end
+
+    def get_grid
+        @grid.map do |row|
+            row.map {|tile|tile}
+        end
+    end
+
+    def load_grid(saved_grid)
+        @grid = saved_grid.map do |row|
+            row.map {|tile|tile}
+        end
     end
 
     def populate
