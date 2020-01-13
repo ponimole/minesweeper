@@ -73,13 +73,13 @@ class Board
         end
     end
 
-    def lost?
+    def lose?
         @grid.any? do |row|
             row.any? {|tile| !tile.hidden if tile.has_mine}
         end
     end
 
-    def won?
+    def win?
         @grid.all? do |row|
             row.all? do |tile|
                 if !tile.has_mine

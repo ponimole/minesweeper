@@ -6,33 +6,68 @@ class Game
         @board = Board.new(size)
     end
 
+    def run
+        play_loop
+        game_over_prompt
+    end
+
     def play_loop
         @board.render
-        pos = get_pos
-        action = get_act
+        win = false
+        lose = false
+        
+        until win || lose
+            pos = get_pos
+            action = get_act
+            @board.reveal(pos)
+            if @board.lose?
+                lose = true
+                lose_prompt
+            elsif @board.win?
+                win = true
+                win_prompt
+            end
+            @board.render
+        end
+    end
+
+    def game_over_prompt
+        puts "Game over."
+    end
+
+    def lose_prompt
+        puts "You lose."
+    end
+
+    def win_prompt
+        put "You Win!!!"
     end
 
     def get_act
         act = nil
-        begin
-            prompt_act
-            act = gets.chomp
-            raise if !valid_act?(act)
-        rescue
-            puts "Invalid action"
-            act = nil
+        until act != nil
+            begin
+                prompt_act
+                act = gets.chomp
+                raise if !valid_act?(act)
+            rescue
+                puts "Invalid action"
+                act = nil
+            end
         end
     end
 
     def get_pos
         pos = nil
-        begin
-            promt_pos
-            pos = (gets.chomp).split(",").map {|coor| Integer(coor)}
-            raise if !valid_pos?(pos)
-        rescue
-            puts "Invalid position."
-            pos = nil
+        until pos != nil
+            begin
+                promt_pos
+                pos = (gets.chomp).split(",").map {|coor| Integer(coor)}
+                raise if !valid_pos?(pos)
+            rescue
+                puts "Invalid position."
+                pos = nil
+            end
         end
         pos
     end
