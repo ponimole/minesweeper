@@ -3,7 +3,7 @@ class Tile
     attr_reader :has_mine
 
     def initialize(board, pos, has_mine = false)
-        @has_mine = has_mine
+        @has_mine = has_mine || random_bool
         @board = board
         @pos = pos
         @hidden = true
@@ -35,5 +35,9 @@ class Tile
 
     def adj_mine_count
         @board.adj_mine_count(@pos)
+    end
+
+    def random_bool
+        rand(100) % 5 == 0 # 20% percent true
     end
 end
