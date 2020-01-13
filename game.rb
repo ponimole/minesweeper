@@ -1,4 +1,5 @@
 require "./board.rb"
+require "./keypress.rb"
 require "yaml"
 require "byebug"
 class Game
@@ -134,7 +135,7 @@ class Game
 
     def turn
         pos = get_pos
-        act = get_act
+        act = get_act.upcase
         if act == "B"
             @board.reveal(pos)
         elsif act == "F"
@@ -172,19 +173,28 @@ class Game
     end
 
     def get_pos
-        pos = nil
-        until pos != nil
-            begin
-                promt_pos
-                pos = (gets.chomp).split(",").map {|coor| Integer(coor)}
-                raise if !valid_pos?(pos)
-            rescue
-                puts "Invalid position."
-                pos = nil
-            end
+        position_selected = nil
+        until position_selected != nil
+            promt_pos
+            position_selected = @board.get_pos
         end
-        pos
+        position_selected
     end
+
+    # def get_pos
+    #     pos = nil
+    #     until pos != nil
+    #         begin
+    #             promt_pos
+    #             pos = (gets.chomp).split(",").map {|coor| Integer(coor)}
+    #             raise if !valid_pos?(pos)
+    #         rescue
+    #             puts "Invalid position."
+    #             pos = nil
+    #         end
+    #     end
+    #     pos
+    # end
 
     def prompt_act
         puts "Enter 'B' to Bomb, 'F' to Flag, 'S' to Save Game"
@@ -192,7 +202,7 @@ class Game
 
     def promt_pos
         puts
-        puts "Please enter a position. Ex. (2,1) : "
+        puts "Please select a position : "
     end
 
     def valid_pos?(pos)
@@ -203,7 +213,7 @@ class Game
 
     def valid_act?(act)
         actions = ["B", "F", "S"]
-        act.length == 1 && actions.include?(act)
+        act.length == 1 && actions.include?(act.upcase)
     end
 end
 

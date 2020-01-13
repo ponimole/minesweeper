@@ -1,4 +1,5 @@
 require "./tile.rb"
+require "./keypress.rb"
 require "byebug"
 require "yaml"
 class Board
@@ -10,6 +11,7 @@ class Board
         else
             @grid = load_grid(saved_grid)
         end
+        @cursor_position = [0,0]
     end
 
     def get_grid
@@ -34,11 +36,42 @@ class Board
     end
 
     def render
-        @grid.each do |row|
+        puts "MINESWEEPER"
+        puts
+        @grid.each_with_index do |row,row_i|
             print_row = ""
-            row.each {|tile| print_row += tile.to_s + " " }
+            row.each_with_index do |tile,col_i|
+                if @cursor_position != [col_i,row_i]
+                    print_row += tile.to_s + " "
+                else
+                    print_row += tile.cursor + " "
+                end
+            end
             puts print_row[0...-1]
         end
+    end
+
+    def get_pos
+        row, col = @cursor_position
+        
+        pos = [col,row]
+        case update_pos
+        when "UP"
+            col -= 1
+        when "DOWN"
+            col += 1
+        when "LEFT"
+            row -= 1
+        when "RIGHT"
+            row += 1
+        when "ENTER"
+            return pos
+        end
+        pos = [col,row]
+        @cursor_position = [row, col] if valid_coor?(col) && valid_coor?(row)
+        system "clear"
+        render
+        nil
     end
 
     def [](pos)
@@ -69,6 +102,10 @@ class Board
 
     def is_adjacent?(coor_1,coor_2)
         coor_1 - coor_2 == 1 || coor_1 - coor_2 == -1
+    end
+
+    def valid_coor?(coor)
+        coor.between?(0,@grid.length - 1)
     end
 
     def valid?(pos)

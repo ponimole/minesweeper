@@ -23,10 +23,17 @@ class Tile
     end
 
     def state
-        return "F".colorize(:blue) if @flagged && @hidden
+        return "F".colorize(:light_blue) if @flagged && @hidden
         return "*" if @hidden
         return "M".colorize(:red) if has_mine
         adj_mine_count.to_s.colorize(:green)
+    end
+
+    def cursor
+        return "F".blue.on_red.blink if @flagged && @hidden
+        return "*".blue.on_red.blink if @hidden
+        return "M".blue.on_red.blink if has_mine
+        adj_mine_count.to_s.blue.on_red.blink
     end
 
     def bomb
