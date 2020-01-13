@@ -2,13 +2,12 @@ require "./board.rb"
 require "byebug"
 class Game
 
-    def initialize(size)
+    def initialize(size = 9)
         @board = Board.new(size)
     end
 
-    def run
-        play_loop
-        game_over_prompt
+    def self.run
+        Game.new.play_loop
     end
 
     def play_loop
@@ -29,6 +28,7 @@ class Game
             end
             @board.render
         end
+        game_over_prompt
     end
 
     def game_over_prompt
@@ -91,3 +91,5 @@ class Game
         act.length == 1 && actions.include?(act)
     end
 end
+
+Game.run
