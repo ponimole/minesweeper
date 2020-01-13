@@ -3,9 +3,13 @@ require "byebug"
 require "yaml"
 class Board
 
-    def initialize(size)
-        @grid = Array.new(size) {Array.new(size)}
-        self.populate
+    def initialize(size, saved_grid = nil)
+        if grid == nil
+            @grid = Array.new(size) {Array.new(size)}
+            self.populate
+        else
+            @grid.load_grid(grid)
+        end
     end
 
     def get_grid

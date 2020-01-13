@@ -1,45 +1,92 @@
 require "./board.rb"
-require "./save.rb"
+require "yaml"
 require "byebug"
 class Game
 
-    def initialize(size = 9)
-        @board = Board.new(size)
+    def initialize(size = 9, saved_grid = nil)
+        @board = Board.new(size, grid)
     end
 
     def save_game
-        @board.get_grid
+        grid = @board.get_grid
+        save_name = "saves/" + get_save_name + ".yaml"
+        File.open(save_name, "w") { |file| file.write(grid.to_yaml) }
     end
 
-    def self.load_game(saved_grid)
-        @board.load_grid(saved_grid)
+    def get_save_name
+        alphabet = "abcdefghijklmnopqrstuvwxyz"
+        save_name = nil
+        until save_name != nil
+            begin
+                save_prompt
+                save_name = gets.chomp
+                raise if !save_name.each_char.all? {|char|alphabet.include?(char.downcase)}
+            rescue
+                puts "invalid name"
+                save_name = nil
+            end
+        end
+        save_name
     end
+
+    def save_prompt
+        puts "Please type save name (must be letters only) :"
+    end
+
+    # def self.load_game(saved_grid)
+    #     @board.load_grid(saved_grid)
+    # end
 
     def self.run
         choice = get_menu_choice
         if choice == 'N'
             Game.new(Game.game_size).play_loop
         else
-            Game.new(GAme.load_game(select_game))
+            grid = Game.select_game
+            Game.new(grid.length,grid).play_loop
         end
     end
 
-    def menu_prompt
-        puts "New Game 'N' or Load Game 'L' : "
-        
+    def self.select_game
+        game_name = get_game_name + ".yml"
+        grid = YAML.load(File.read(game_name))
+        grid
     end
 
-    def get_menu_choice
+    def self.get_game_name
+        game_name = nil
+        until game_name != nil
+            begin
+                puts "select game (type name) : "
+                puts Dir["saves/*"]
+                game_name = gets.chomp
+            rescue
+                puts "invalid entry"
+                game_name = nil
+            end
+        end
+        game_name
+    end
+
+    def self.menu_prompt
+        puts
+        puts "Play Minesweeper"
+        puts "New Game 'N' or Load Game 'L' : "
+    end
+
+    def self.get_menu_choice
         choice = nil
         until choice != nil
             begin
                 menu_prompt
-                choice = (gets.chomp)
-                raise if choice != 'N' || choice != 'L'
+                choice = (gets.chomp).upcase
+                
+                raise if !(choice == "N" || choice == "L")
             rescue
                 puts "invalid choice"
                 choice = nil
             end
+        end
         choice
     end
 
