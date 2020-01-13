@@ -31,7 +31,7 @@ class Board
                     is_adjacent?(y,row_i) && valid?([col_i,row_i])
                     adjacents << [col_i,row_i]
                 elsif (is_adjacent?(x,col_i) && y == row_i) ||
-                       (is_adjacent?(y,row_i) && x == col_i)
+                       (is_adjacent?(y,row_i) && x == col_i) && valid?([col_i,row_i])
                     adjacents << [col_i,row_i]
                 end
             end
