@@ -66,6 +66,13 @@ class Board
         end
     end
 
+    def flag(pos)
+        if valid?(pos)
+            x,y = pos
+            @grid[x][y].flag
+        end
+    end
+
     def reveal(pos)
         if valid?(pos)
             x,y = pos

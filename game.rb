@@ -35,14 +35,13 @@ class Game
     end
 
     def play_loop
+        system "clear"
         @board.render
         win = false
         lose = false
         
         until win || lose
-            pos = get_pos
-            action = get_act
-            @board.reveal(pos)
+            turn
             if @board.lose?
                 lose = true
                 lose_prompt
@@ -50,9 +49,20 @@ class Game
                 win = true
                 win_prompt
             end
+            system "clear"
             @board.render
         end
         game_over_prompt
+    end
+
+    def turn
+        pos = get_pos
+        act = get_act
+        if act == "B"
+            @board.reveal(pos)
+        elsif act == "F"
+            @board.flag(pos)
+        end
     end
 
     def game_over_prompt
@@ -79,6 +89,7 @@ class Game
                 act = nil
             end
         end
+        act
     end
 
     def get_pos
@@ -101,6 +112,7 @@ class Game
     end
 
     def promt_pos
+        puts
         puts "Please enter a position. Ex. (2,1) : "
     end
 
