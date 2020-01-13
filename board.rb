@@ -1,4 +1,5 @@
 require "./tile.rb"
+require "byebug"
 class Board
 
     def initialize(size)
@@ -20,6 +21,11 @@ class Board
             row.each {|tile| print_row += tile.to_s + " " }
             puts print_row[0...-1]
         end
+    end
+
+    def [](pos)
+        x,y = pos
+        @grid[x][y].to_s
     end
 
     def get_adjacents(pos)

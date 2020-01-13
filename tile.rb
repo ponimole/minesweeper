@@ -22,8 +22,8 @@ class Tile
     end
 
     def state
+        return "F" if @flagged && @hidden
         return "*" if @hidden
-        return "F" if @flagged && (@bombed == false)
         return "M" if has_mine
         adj_mine_count.to_s
     end
