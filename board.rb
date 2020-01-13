@@ -28,6 +28,10 @@ class Board
         @grid[x][y].to_s
     end
 
+    def length
+        @grid.length
+    end
+
     def get_adjacents(pos)
         adjacents = []
         x, y = pos
