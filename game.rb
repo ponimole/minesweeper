@@ -1,4 +1,5 @@
 require "./board.rb"
+require "./save.rb"
 require "byebug"
 class Game
 
@@ -6,8 +7,40 @@ class Game
         @board = Board.new(size)
     end
 
+    def save_game
+        @board.get_grid
+    end
+
+    def self.load_game(saved_grid)
+        @board.load_grid(saved_grid)
+    end
+
     def self.run
-        Game.new(Game.game_size).play_loop
+        choice = get_menu_choice
+        if choice == 'N'
+            Game.new(Game.game_size).play_loop
+        else
+            Game.new(GAme.load_game(select_game))
+        end
+    end
+
+    def menu_prompt
+        puts "New Game 'N' or Load Game 'L' : "
+        
+    end
+
+    def get_menu_choice
+        choice = nil
+        until choice != nil
+            begin
+                menu_prompt
+                choice = (gets.chomp)
+                raise if choice != 'N' || choice != 'L'
+            rescue
+                puts "invalid choice"
+                choice = nil
+            end
+        choice
     end
 
     def self.game_size
