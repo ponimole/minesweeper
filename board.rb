@@ -1,5 +1,4 @@
 require "./tile.rb"
-require "byebug"
 class Board
 
     def initialize(size)
