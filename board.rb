@@ -4,6 +4,7 @@ class Board
 
     def initialize(size)
         @grid = Array.new(size) {Array.new(size)}
+        self.populate
     end
 
     def populate
