@@ -1,4 +1,5 @@
 require "./board.rb"
+require "colorize"
 class Tile
     attr_reader :has_mine, :hidden
 
@@ -22,10 +23,10 @@ class Tile
     end
 
     def state
-        return "F" if @flagged && @hidden
+        return "F".colorize(:blue) if @flagged && @hidden
         return "*" if @hidden
-        return "M" if has_mine
-        adj_mine_count.to_s
+        return "M".colorize(:red) if has_mine
+        adj_mine_count.to_s.colorize(:green)
     end
 
     def bomb
