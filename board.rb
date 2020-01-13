@@ -62,4 +62,22 @@ class Board
             @grid[x][y].reveal
         end
     end
+
+    def lost?
+        @grid.any? do |row|
+            row.any? {|tile| !tile.hidden if tile.has_mine}
+        end
+    end
+
+    def won?
+        @grid.all? do |row|
+            row.all? do |tile|
+                if !tile.has_mine
+                    !tile.hidden
+                else
+                    true
+                end
+            end
+        end
+    end
 end

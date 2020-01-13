@@ -1,6 +1,6 @@
 require "./board.rb"
 class Tile
-    attr_reader :has_mine
+    attr_reader :has_mine, :hidden
 
     def initialize(board, pos, has_mine = false)
         @has_mine = has_mine || random_bool
@@ -15,7 +15,6 @@ class Tile
         bomb
         @hidden = false
         to_s
-        has_mine
     end
 
     def to_s
