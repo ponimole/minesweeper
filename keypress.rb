@@ -52,6 +52,10 @@ def update_pos
 #     puts "DELETE"
 #   when "\e[3~"
 #     puts "ALTERNATE DELETE"
+  when "f" || "F"
+    return "F"
+  when "s" || "S"
+    return "S"
   when "\u0003"
     puts "CONTROL-C"
     exit 0

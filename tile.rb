@@ -49,6 +49,6 @@ class Tile
     end
 
     def random_bool
-        rand(100) % 5 == 0 # 20% percent true
+        rand(100) % 10 == 0 # 10% percent true
     end
 end

@@ -135,12 +135,12 @@ class Game
 
     def turn
         pos = get_pos
-        act = get_act.upcase
-        if act == "B"
-            @board.reveal(pos)
-        elsif act == "F"
-            @board.flag(pos)
-        elsif act == "S"
+        # act = get_act.upcase
+        if pos[1] == "B"
+            @board.reveal(pos[0])
+        elsif pos[1] == "F"
+            @board.flag(pos[0])
+        elsif pos[1] == "S"
             save_game
         end
     end
@@ -176,6 +176,7 @@ class Game
         position_selected = nil
         until position_selected != nil
             promt_pos
+            prompt_act
             position_selected = @board.get_pos
         end
         position_selected
@@ -197,7 +198,7 @@ class Game
     # end
 
     def prompt_act
-        puts "Enter 'B' to Bomb, 'F' to Flag, 'S' to Save Game"
+        puts "Press enter to Bomb, 'F' to Flag, 'S' to Save Game"
     end
 
     def promt_pos

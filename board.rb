@@ -65,7 +65,11 @@ class Board
         when "RIGHT"
             row += 1
         when "ENTER"
-            return pos
+            return [pos,"B"]
+        when "F"
+            return [pos,"F"]
+        when "S"
+            return [pos,"S"]
         end
         pos = [col,row]
         @cursor_position = [row, col] if valid_coor?(col) && valid_coor?(row)
