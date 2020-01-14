@@ -113,22 +113,26 @@ class Game
     end
 
     def play_loop
-        system "clear"
-        @board.render
+        # system "clear"
+        # @board.render
         win = false
         lose = false
         
         until win || lose
+            system "clear"
+            @board.render
             turn
             if @board.lose?
                 lose = true
+                system "clear"
+                @board.render
                 lose_prompt
             elsif @board.win?
                 win = true
+                system "clear"
+                @board.render
                 win_prompt
             end
-            system "clear"
-            @board.render
         end
         game_over_prompt
     end
