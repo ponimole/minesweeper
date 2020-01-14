@@ -154,7 +154,7 @@ class Game
     end
 
     def win_prompt
-        put "You Win!!!"
+        puts "You Win!!!"
     end
 
     def get_act
